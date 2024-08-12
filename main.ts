@@ -1054,3 +1054,15 @@ namespace pksdriver {
         return yaw_ang;
     }
 }
+
+// for maze car's use only
+enum direction { FRONT, LEFT, RIGHT }
+
+//% block="PKS drivers"
+namespace pksdriver {
+    //% block="direction $wantedDirection" subcategory="Maze car"
+    //% weight=70
+    export function chooseDirection(wantedDirection: direction): direction {
+        return wantedDirection;
+    }
+}
