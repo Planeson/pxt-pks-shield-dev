@@ -1056,7 +1056,7 @@ namespace pksdriver {
 }
 
 // for maze car's use only
-enum direction { FRONT, LEFT, RIGHT }
+enum direction { FRONT, BACK, LEFT, RIGHT }
 
 //% block="PKS drivers"
 namespace pksdriver {
