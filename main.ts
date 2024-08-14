@@ -97,7 +97,8 @@ namespace pksdriver {
      * S1~S8.
      * 0°~180°.
     */
-    //% blockId=motor_servo block="servo|%index|degree|%degree" subcategory="Robot"
+    //% blockId=motor_servo block="servo|%index|degree|%degree" subcategory="Edu Kit"
+    //% group="Servos"
     //% weight=100
     //% degree.min=0 degree.max=180
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
@@ -114,7 +115,8 @@ namespace pksdriver {
     /**
      * set servo off
     */
-    //% blockId=motor_servoOff block="servo off|%index" subcategory="Robot"
+    //% blockId=motor_servoOff block="servo off|%index" subcategory="Edu Kit"
+    //% group="Servos"
     //% weight=99
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
     export function servoOff(index: Servos): void {
@@ -127,7 +129,8 @@ namespace pksdriver {
     /**
      * set servo on
     */
-    //% blockId=motor_servoOn block="servo on|%index" subcategory="Robot"
+    //% blockId=motor_servoOn block="servo on|%index" subcategory="Edu Kit"
+    //% group="Servos"
     //% weight=98
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
     export function servoOn(index: Servos): void {
@@ -143,10 +146,11 @@ namespace pksdriver {
      * speed(0~255).
     */
     //% weight=130
-    //% blockId=motor_MotorRun block="motor|%index|dir|%Dir|speed|%speed" subcategory="Robot"
+    //% blockId=motor_MotorRun block="motor|%index|dir|%Dir|speed|%speed" subcategory="Edu Kit"
     //% speed.min=0 speed.max=255
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     //% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
+    //% group="Motors"
     export function MotorRun(index: Motors, direction: Dir, speed: number): void {
         if (!initialized) {
             initPCA9685()
@@ -175,7 +179,8 @@ namespace pksdriver {
      * Stop the dc motor.
     */
     //% weight=129
-    //% blockId=motor_motorStop block="motor stop|%index" subcategory="Robot"
+    //% blockId=motor_motorStop block="motor stop|%index" subcategory="Edu Kit"
+    //% group="Motors"
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     export function motorStop(index: Motors) {
         setPwm((4 - index) * 2, 0, 0);
@@ -186,7 +191,8 @@ namespace pksdriver {
      * Stop all motors
     */
     //% weight=128
-    //% blockId=motor_motorStopAll block="motor stop all" subcategory="Robot"
+    //% blockId=motor_motorStopAll block="motor stop all" subcategory="Edu Kit"
+    //% group="Motors"
     export function motorStopAll(): void {
         for (let idx = 1; idx <= 4; idx++) {
             motorStop(idx);
@@ -194,7 +200,8 @@ namespace pksdriver {
     }
 
     //% weight=90
-    //% blockId=light_lighton block="light on|%index" subcategory="Robot"
+    //% blockId=light_lighton block="light on|%index" subcategory="Smart Living"
+    //% group="Lights"
     export function LightOn(index: Motors): void {
         if (!initialized) {
             initPCA9685()
@@ -221,7 +228,8 @@ namespace pksdriver {
     }
 
     //% weight=90
-    //% blockId=light_lightoff block="light off|%index" subcategory="Robot"
+    //% blockId=light_lightoff block="light off|%index" subcategory="Smart Living"
+    //% group="Lights"
     export function LightOff(index: Motors) {
         setPwm((4 - index) * 2, 0, 0);
         setPwm((4 - index) * 2 + 1, 0, 0);
@@ -268,7 +276,8 @@ namespace pksdriver {
     /**
     * compoundEye read function
     */
-    //% blockId=compoundEye block="compound eye $compound_eye_data"  subcategory="Robot"
+    //% blockId=compoundEye block="compound eye $compound_eye_data"  subcategory="Soccer Robot"
+    //% group="Compound Eye"
     //% weight=50
     export function compoundEyeRead(compound_eye_data: compoundEyeData): number {
         pins.i2cWriteNumber(
@@ -326,7 +335,8 @@ namespace pksdriver {
     //% wait.defl=true
     //% blockExternalInputs=true
     //% weight=100
-    //% subcategory="Hydroponic"
+    //% subcategory="Smart Living"
+    //% group="Temperature and Humidity"
     export function queryData(DHT: DHTtype, dataPin: DigitalPin, pullUp: boolean, serialOtput: boolean) {
 
         //initialize
@@ -432,7 +442,8 @@ namespace pksdriver {
     * Read humidity/temperature data from lastest query of DHT11/DHT22
     */
     //% weight=99
-    //% block="read $data" subcategory="Hydroponic"
+    //% block="read $data" subcategory="Smart Living"
+    //% group="Temperature and Humidity"
     export function readData(data: dataType): number {
         return data == dataType.humidity ? _humidity : _temperature
     }
@@ -440,7 +451,8 @@ namespace pksdriver {
     /**
     * Select temperature type (Celsius/Fahrenheit)"
     */
-    //% block="temperature type: $temp" subcategory="Hydroponic"
+    //% block="temperature type: $temp" subcategory="Smart Living"
+    //% group="Temperature and Humidity"
     //% weight=98
     export function selectTempType(temp: tempType) {
         _temptype = temp
@@ -449,8 +461,9 @@ namespace pksdriver {
     /**
     * Determind if last query is successful (checksum ok)
     */
-    //% block="last query successful?" subcategory="Hydroponic"
+    //% block="last query successful?" subcategory="Smart Living"
     //% weight=97
+    //% group="Temperature and Humidity"
     export function readDataSuccessful(): boolean {
         return _readSuccessful
     }
@@ -458,8 +471,9 @@ namespace pksdriver {
     /**
     * Determind if sensor responded successfully (not disconnected, etc) in last query
     */
-    //% block="last query sensor responding?" subcategory="Hydroponic"
+    //% block="last query sensor responding?" subcategory="Smart Living"
     //% weight=96
+    //% group="Temperature and Humidity"
     export function sensorrResponding(): boolean {
         return _sensorresponding
     }
@@ -561,9 +575,10 @@ namespace pksdriver {
         /**
          * get Year
          */
-        //% blockId="DS1302_get_year" block="%ds|get year" subcategory="Hydroponic"
+        //% blockId="DS1302_get_year" block="%ds|get year" subcategory="Smart Living"
         //% weight=80 blockGap=8
         //% parts="DS1302"
+        //% group="Date and Time"
         getYear(): number {
             return Math.min(HexToDec(this.getReg(DS1302_REG_YEAR + 1)), 99) + 2000
         }
@@ -572,8 +587,9 @@ namespace pksdriver {
          * set year
          * @param dat is the Year will be set, eg: 2018
          */
-        //% blockId="DS1302_set_year" block="%ds|set year %dat" subcategory="Hydroponic"
+        //% blockId="DS1302_set_year" block="%ds|set year %dat" subcategory="Smart Living"
         //% weight=81 blockGap=8
+        //% group="Date and Time"
         //% parts="DS1302"
         setYear(dat: number): void {
             this.wr(DS1302_REG_YEAR, DecToHex(dat % 100))
@@ -582,8 +598,9 @@ namespace pksdriver {
         /**
          * get Month
          */
-        //% blockId="DS1302_get_month" block="%ds|get month" subcategory="Hydroponic"
+        //% blockId="DS1302_get_month" block="%ds|get month" subcategory="Smart Living"
         //% weight=78 blockGap=8
+        //% group="Date and Time"
         //% parts="DS1302"
         getMonth(): number {
             return Math.max(Math.min(HexToDec(this.getReg(DS1302_REG_MONTH + 1)), 12), 1)
@@ -593,8 +610,9 @@ namespace pksdriver {
          * set month
          * @param dat is Month will be set.  eg: 2
          */
-        //% blockId="DS1302_set_month" block="%ds|set month %dat" subcategory="Hydroponic"
+        //% blockId="DS1302_set_month" block="%ds|set month %dat" subcategory="Smart Living"
         //% weight=79 blockGap=8
+        //% group="Date and Time"
         //% parts="DS1302"
         //% dat.min=1 dat.max=12
         setMonth(dat: number): void {
@@ -604,8 +622,9 @@ namespace pksdriver {
         /**
          * get Day
          */
-        //% blockId="DS1302_get_day" block="%ds|get day" subcategory="Hydroponic"
+        //% blockId="DS1302_get_day" block="%ds|get day" subcategory="Smart Living"
         //% weight=76 blockGap=8
+        //% group="Date and Time"
         //% parts="DS1302"
         getDay(): number {
             return Math.max(Math.min(HexToDec(this.getReg(DS1302_REG_DAY + 1)), 31), 1)
@@ -615,9 +634,10 @@ namespace pksdriver {
          * set day
          * @param dat is the Day will be set, eg: 15
          */
-        //% blockId="DS1302_set_day" block="%ds|set day %dat" subcategory="Hydroponic"
+        //% blockId="DS1302_set_day" block="%ds|set day %dat" subcategory="Smart Living"
         //% weight=77 blockGap=8
         //% parts="DS1302"
+        //% group="Date and Time"
         //% dat.min=1 dat.max=31
         setDay(dat: number): void {
             this.wr(DS1302_REG_DAY, DecToHex(dat % 32))
@@ -626,9 +646,10 @@ namespace pksdriver {
         /**
          * get Week Day
          */
-        //% blockId="DS1302_get_weekday" block="%ds|get weekday" subcategory="Hydroponic"
+        //% blockId="DS1302_get_weekday" block="%ds|get weekday" subcategory="Smart Living"
         //% weight=74 blockGap=8
         //% parts="DS1302"
+        //% group="Date and Time"
         getWeekday(): number {
             return Math.max(Math.min(HexToDec(this.getReg(DS1302_REG_WEEKDAY + 1)), 7), 1)
         }
@@ -637,10 +658,11 @@ namespace pksdriver {
          * set weekday
          * @param dat is the Week Day will be set, eg: 4
          */
-        //% blockId="DS1302_set_weekday" block="%ds|set weekday %dat" subcategory="Hydroponic"
+        //% blockId="DS1302_set_weekday" block="%ds|set weekday %dat" subcategory="Smart Living"
         //% weight=75 blockGap=8
         //% parts="DS1302"
         //% dat.min=1 dat.max=7
+        //% group="Date and Time"
         setWeekday(dat: number): void {
             this.wr(DS1302_REG_WEEKDAY, DecToHex(dat % 8))
         }
@@ -648,9 +670,10 @@ namespace pksdriver {
         /**
          * get Hour
          */
-        //% blockId="DS1302_get_hour" block="%ds|get hour" subcategory="Hydroponic"
+        //% blockId="DS1302_get_hour" block="%ds|get hour" subcategory="Smart Living"
         //% weight=72 blockGap=8
         //% parts="DS1302"
+        //% group="Date and Time"
         getHour(): number {
             return Math.min(HexToDec(this.getReg(DS1302_REG_HOUR + 1)), 23)
         }
@@ -659,10 +682,11 @@ namespace pksdriver {
          * set hour
          * @param dat is the Hour will be set, eg: 0
          */
-        //% blockId="DS1302_set_hour" block="%ds|set hour %dat" subcategory="Hydroponic"
+        //% blockId="DS1302_set_hour" block="%ds|set hour %dat" subcategory="Smart Living"
         //% weight=73 blockGap=8
         //% parts="DS1302"
         //% dat.min=0 dat.max=23
+        //% group="Date and Time"
         setHour(dat: number): void {
             this.wr(DS1302_REG_HOUR, DecToHex(dat % 24))
         }
@@ -670,9 +694,10 @@ namespace pksdriver {
         /**
          * get Minute
          */
-        //% blockId="DS1302_get_minute" block="%ds|get minute" subcategory="Hydroponic"
+        //% blockId="DS1302_get_minute" block="%ds|get minute" subcategory="Smart Living"
         //% weight=70 blockGap=8
         //% parts="DS1302"
+        //% group="Date and Time"
         getMinute(): number {
             return Math.min(HexToDec(this.getReg(DS1302_REG_MINUTE + 1)), 59)
         }
@@ -681,10 +706,11 @@ namespace pksdriver {
          * set minute
          * @param dat is the Minute will be set, eg: 0
          */
-        //% blockId="DS1302_set_minute" block="%ds|set minute %dat" subcategory="Hydroponic"
+        //% blockId="DS1302_set_minute" block="%ds|set minute %dat" subcategory="Smart Living"
         //% weight=71 blockGap=8
         //% parts="DS1302"
         //% dat.min=0 dat.max=59
+        //% group="Date and Time"
         setMinute(dat: number): void {
             this.wr(DS1302_REG_MINUTE, DecToHex(dat % 60))
         }
@@ -692,9 +718,10 @@ namespace pksdriver {
         /**
          * get Second
          */
-        //% blockId="DS1302_get_second" block="%ds|get second" subcategory="Hydroponic"
+        //% blockId="DS1302_get_second" block="%ds|get second" subcategory="Smart Living"
         //% weight=67 blockGap=8
         //% parts="DS1302"
+        //% group="Date and Time"
         getSecond(): number {
             return Math.min(HexToDec(this.getReg(DS1302_REG_SECOND + 1)), 59)
         }
@@ -703,10 +730,11 @@ namespace pksdriver {
          * set second
          * @param dat is the Second will be set, eg: 0
          */
-        //% blockId="DS1302_set_second" block="%ds|set second %dat" subcategory="Hydroponic"
+        //% blockId="DS1302_set_second" block="%ds|set second %dat" subcategory="Smart Living"
         //% weight=68 blockGap=8
         //% parts="DS1302"
         //% dat.min=0 dat.max=59
+        //% group="Date and Time"
         setSecond(dat: number): void {
             this.wr(DS1302_REG_SECOND, DecToHex(dat % 60))
         }
@@ -721,7 +749,7 @@ namespace pksdriver {
          * @param minute is the Minute will be set, eg: 0
          * @param second is the Second will be set, eg: 0
          */
-        //% blockId="DS1302_set_DateTime" block="%ds|set date and time: year %year|month %month|day %day|weekday %weekday|hour %hour|minute %minute|second %second" subcategory="Hydroponic"
+        //% blockId="DS1302_set_DateTime" block="%ds|set date and time: year %year|month %month|day %day|weekday %weekday|hour %hour|minute %minute|second %second" subcategory="Smart Living"
         //% weight=50 blockGap=8
         //% parts="DS1302"
         //% year.min=2000 year.max=2100
@@ -731,6 +759,7 @@ namespace pksdriver {
         //% hour.min=0 hour.max=23
         //% minute.min=0 minute.max=59
         //% second.min=0 second.max=59
+        //% group="Date and Time"
         DateTime(year: number, month: number, day: number, weekday: number, hour: number, minute: number, second: number): void {
             this.setYear(year);
             this.setMonth(month);
@@ -744,9 +773,10 @@ namespace pksdriver {
         /**
          * start ds1302 RTC (go on)
          */
-        //% blockId="DS1302_start" block="%ds|start RTC" subcategory="Hydroponic"
+        //% blockId="DS1302_start" block="%ds|start RTC" subcategory="Smart Living"
         //% weight=41 blockGap=8
         //% parts="DS1302"
+        //% group="Date and Time"
         start() {
             let t = this.getSecond()
             this.setSecond(t & 0x7f)
@@ -755,9 +785,10 @@ namespace pksdriver {
         /**
          * pause ds1302 RTC
          */
-        //% blockId="DS1302_pause" block="%ds|pause RTC" subcategory="Hydroponic"
+        //% blockId="DS1302_pause" block="%ds|pause RTC" subcategory="Smart Living"
         //% weight=40 blockGap=8
         //% parts="DS1302"
+        //% group="Date and Time"
         pause() {
             let t = this.getSecond()
             this.setSecond(t | 0x80)
@@ -766,10 +797,11 @@ namespace pksdriver {
         /**
          * read RAM
          */
-        //% blockId="DS1302_read_ram" block="%ds|read ram %reg" subcategory="Hydroponic"
+        //% blockId="DS1302_read_ram" block="%ds|read ram %reg" subcategory="Smart Living"
         //% weight=43 blockGap=8
         //% parts="DS1302"
         //% reg.min=0 reg.max=30
+        //% group="Date and Time"
         readRam(reg: number): number {
             return this.getReg(DS1302_REG_RAM + 1 + (reg % 31) * 2)
         }
@@ -777,10 +809,11 @@ namespace pksdriver {
         /**
          * write RAM
          */
-        //% blockId="DS1302_write_ram" block="%ds|write ram %reg|with %dat" subcategory="Hydroponic"
+        //% blockId="DS1302_write_ram" block="%ds|write ram %reg|with %dat" subcategory="Smart Living"
         //% weight=42 blockGap=8
         //% parts="DS1302"
         //% reg.min=0 reg.max=30
+        //% group="Date and Time"
         writeRam(reg: number, dat: number) {
             this.wr(DS1302_REG_RAM + (reg % 31) * 2, dat)
         }
@@ -793,7 +826,7 @@ namespace pksdriver {
      * @param cs the CS pin for DS1302, eg: DigitalPin.P15
      */
     //% weight=95 blockGap=8
-    //% blockId="DS1302_create" block="CLK %clk|DIO %dio|CS %cs" subcategory="Hydroponic"
+    //% blockId="DS1302_create" block="CLK %clk|DIO %dio|CS %cs" subcategory="Smart Living"
     export function create(clk: DigitalPin, dio: DigitalPin, cs: DigitalPin): DS1302RTC {
         let ds = new DS1302RTC();
         ds.clk = clk;
@@ -941,7 +974,8 @@ namespace pksdriver {
     /**
      * Initialize MPU6050
      */
-    //% block="initialize MPU6050" subcategory="Acceleration"
+    //% block="initialize MPU6050" subcategory="Edu Kit"
+    //% group="Accelleration"
     //% weight=100
     export function initMPU6050() {
         let buffer = pins.createBuffer(2);
@@ -953,7 +987,8 @@ namespace pksdriver {
     /**
       * Get gyroscope values
       */
-    //% block="gyroscope value of %axisXYZ axis with %gyroSen sensitivity (Unit: rad/s)" subcategory="Acceleration"
+    //% block="gyroscope value of %axisXYZ axis with %gyroSen sensitivity (Unit: rad/s)" subcategory="Edu Kit"
+    //% group="Accelleration"
     //% weight=99
     export function gyroscope(axis: axisXYZ, sensitivity: gyroSen) {
         updateGyroscope(sensitivity);
@@ -971,7 +1006,8 @@ namespace pksdriver {
     /**
      * Get rotation of the corresponding Axis
      */
-    //% block="angle of %xaxisXYZ axis with %accelSen sensitivity (Unit: Degrees)" subcategory="Acceleration"
+    //% block="angle of %xaxisXYZ axis with %accelSen sensitivity (Unit: Degrees)" subcategory="Edu Kit"
+    //% group="Accelleration"
     //% weight=98
     export function axisRotation(axis: axisXYZ, sensitivity: accelSen): number {
         updateAcceleration(sensitivity);
@@ -996,7 +1032,8 @@ namespace pksdriver {
     /**
      * Get acceleration of the corresponding Axis
      */
-    //% block="acceleration of %xaxisXYZ axis with %accelSen sensitivity (Unit: g)" subcategory="Acceleration"
+    //% block="acceleration of %xaxisXYZ axis with %accelSen sensitivity (Unit: g)" subcategory="Edu Kit"
+    //% group="Accelleration"
     //% weight=97
     export function axisAcceleration(axis: axisXYZ, sensitivity: accelSen): number {
         updateAcceleration(sensitivity);
@@ -1015,7 +1052,8 @@ namespace pksdriver {
     /**
      * Get temperature
      */
-    //% block="temperature (Unit: Celsius)" subcategory="Acceleration"
+    //% block="temperature (Unit: Celsius)" subcategory="Smart Living"
+    //% group="Temperature and Humidity"
     //% weight=96
     export function readTemperature(): number {
         let rawTemp = readData(tempAddr);
@@ -1042,7 +1080,8 @@ namespace pksdriver {
     /**
     * Compass read function, to get the yaw angle
     */
-    //% block="get_yaw (Unit: deg)" subcategory="Acceleration"
+    //% block="get_yaw (Unit: deg)" subcategory="Soccer Robot"
+    //% group="Compass"
     //% weight=70
     export function compass_get_yaw(): number {
         let yaw_ang = 0;
