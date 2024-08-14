@@ -1,7 +1,7 @@
 //% weight=60
 //% color=#1c4980 
 //% icon="\uf2db" 
-//% block="PKS drivers"
+//% block="PKS Drivers"
 namespace pksdriver {
     const PCA9685_ADDRESS = 0x40
     const MODE = 0x00
@@ -317,7 +317,7 @@ enum tempType {
 //% weight=60
 //% color=#1c4980 
 //% icon="\uf2db" 
-//% block="PKS drivers"
+//% block="PKS Drivers"
 namespace pksdriver {
 
     let _temperature: number = -999.0
@@ -483,7 +483,7 @@ namespace pksdriver {
 //% weight=60
 //% color=#1c4980 
 //% icon="\uf2db" 
-//% block="PKS drivers"
+//% block="PKS Drivers"
 namespace pksdriver {
     let DS1302_REG_SECOND = 0x80
     let DS1302_REG_MINUTE = 0x82
@@ -876,11 +876,11 @@ enum gyroSen {
 //% weight=60
 //% color=#1c4980 
 //% icon="\uf2db" 
-//% block="PKS drivers"
+//% block="PKS Drivers"
 namespace pksdriver {
     let i2cAddress = 0x68;
     let power_mgmt = 0x6b;
-    // Accelleration addresses
+    // Acceleration addresses
     let xAccelAddr = 0x3b;
     let yAccelAddr = 0x3d;
     let zAccelAddr = 0x3f;
@@ -975,7 +975,7 @@ namespace pksdriver {
      * Initialize MPU6050
      */
     //% block="initialize MPU6050" subcategory="Edu Kit"
-    //% group="Accelleration"
+    //% group="Acceleration"
     //% weight=100
     export function initMPU6050() {
         let buffer = pins.createBuffer(2);
@@ -988,7 +988,7 @@ namespace pksdriver {
       * Get gyroscope values
       */
     //% block="gyroscope value of %axisXYZ axis with %gyroSen sensitivity (Unit: rad/s)" subcategory="Edu Kit"
-    //% group="Accelleration"
+    //% group="Acceleration"
     //% weight=99
     export function gyroscope(axis: axisXYZ, sensitivity: gyroSen) {
         updateGyroscope(sensitivity);
@@ -1007,7 +1007,7 @@ namespace pksdriver {
      * Get rotation of the corresponding Axis
      */
     //% block="angle of %xaxisXYZ axis with %accelSen sensitivity (Unit: Degrees)" subcategory="Edu Kit"
-    //% group="Accelleration"
+    //% group="Acceleration"
     //% weight=98
     export function axisRotation(axis: axisXYZ, sensitivity: accelSen): number {
         updateAcceleration(sensitivity);
@@ -1033,7 +1033,7 @@ namespace pksdriver {
      * Get acceleration of the corresponding Axis
      */
     //% block="acceleration of %xaxisXYZ axis with %accelSen sensitivity (Unit: g)" subcategory="Edu Kit"
-    //% group="Accelleration"
+    //% group="Acceleration"
     //% weight=97
     export function axisAcceleration(axis: axisXYZ, sensitivity: accelSen): number {
         updateAcceleration(sensitivity);
@@ -1097,11 +1097,17 @@ namespace pksdriver {
 // for maze car's use only
 enum direction { FRONT, BACK, LEFT, RIGHT }
 
-//% block="PKS drivers"
+//% weight=60
+//% color=#1c4980 
+//% icon="\uf2db" 
+//% block="PKS Drivers"
 namespace pksdriver {
-    //% block="direction $wantedDirection" subcategory="Maze car"
+    
+    //% block="direction $wantedDirection" subcategory="Maze Car"
+    //% group="Directions"
     //% weight=70
     export function chooseDirection(wantedDirection: direction): direction {
         return wantedDirection;
     }
+
 }
