@@ -400,7 +400,7 @@ namespace pksdriver {
             if (checksum == checksumTmp) _readSuccessful = true
 
             //read data if checksum ok, output new readings, do nothing otherwise
-            if (_readSuccessful) {
+            // if (_readSuccessful) {
                 if (DHT == DHTtype.DHT11) {
                     //DHT11
                     _humidity = resultArray[0] + resultArray[1] / 100
@@ -417,7 +417,7 @@ namespace pksdriver {
                 }
                 if (_temptype == tempType.fahrenheit)
                     _temperature = _temperature * 9 / 5 + 32
-            }
+            // }
 
             //serial output
             if (serialOtput) {
