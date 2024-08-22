@@ -310,8 +310,8 @@ enum dataType {
 }
 
 enum tempType {
-    celsius,
-    fahrenheit,
+    Celsius,
+    Fahrenheit,
 }
 
 //% weight=60
@@ -322,7 +322,7 @@ namespace pksdriver {
 
     let _temperature: number = -999.0
     let _humidity: number = -999.0
-    let _temptype: tempType = tempType.celsius
+    let _temptype: tempType = tempType.Celsius
     let _readSuccessful: boolean = false
     let _sensorresponding: boolean = false
 
@@ -337,7 +337,7 @@ namespace pksdriver {
     //% weight=100
     //% subcategory="Smart Living"
     //% group="Temperature and Humidity"
-    export function queryData(DHT: DHTtype, dataPin: DigitalPin, pullUp: boolean, serialOutput: boolean, wait:boolean) {
+    export function queryData(DHT: DHTtype, dataPin: DigitalPin, pullUp: boolean, serialOutput: boolean, wait: boolean) {
 
         //initialize
         let startTime: number = 0
@@ -415,7 +415,7 @@ namespace pksdriver {
                 _humidity = (resultArray[0] * 256 + resultArray[1]) / 10
                 _temperature = (resultArray[2] * 256 + resultArray[3]) / 10 * temp_sign
             }
-            if (_temptype == tempType.fahrenheit)
+            if (_temptype == tempType.Fahrenheit)
                 _temperature = _temperature * 9 / 5 + 32
             // }
 
@@ -425,11 +425,11 @@ namespace pksdriver {
                 if (_readSuccessful) {
                     serial.writeLine("Checksum ok")
                     serial.writeLine("Humidity: " + _humidity)
-                    serial.writeLine("Temperature: " + _temperature + (_temptype == tempType.celsius ? " *C" : " *F"))
+                    serial.writeLine("Temperature: " + _temperature + (_temptype == tempType.Celsius ? " *C" : " *F"))
                 } else {
                     serial.writeLine("Checksum error, showing old values")
                     serial.writeLine("Humidity: " + _humidity)
-                    serial.writeLine("Temperature: " + _temperature + (_temptype == tempType.celsius ? " *C" : " *F"))
+                    serial.writeLine("Temperature: " + _temperature + (_temptype == tempType.Celsius ? " *C" : " *F"))
                 }
                 serial.writeLine("----------------------------------------")
             }
