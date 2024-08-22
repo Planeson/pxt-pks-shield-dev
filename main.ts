@@ -337,7 +337,7 @@ namespace pksdriver {
     //% weight=100
     //% subcategory="Smart Living"
     //% group="Temperature and Humidity"
-    export function queryData(DHT: DHTtype, dataPin: DigitalPin, pullUp: boolean, serialOtput: boolean) {
+    export function queryData(DHT: DHTtype, dataPin: DigitalPin, pullUp: boolean, serialOutput: boolean, wait:boolean) {
 
         //initialize
         let startTime: number = 0
@@ -364,7 +364,7 @@ namespace pksdriver {
         control.waitMicros(40)
 
         if (pins.digitalReadPin(dataPin) == 1) {
-            if (serialOtput) {
+            if (serialOutput) {
                 serial.writeLine(DHTstr + " not responding!")
                 serial.writeLine("----------------------------------------")
             }
@@ -401,26 +401,26 @@ namespace pksdriver {
 
             //read data if checksum ok, output new readings, do nothing otherwise
             // if (_readSuccessful) {
-                if (DHT == DHTtype.DHT11) {
-                    //DHT11
-                    _humidity = resultArray[0] + resultArray[1] / 100
-                    _temperature = resultArray[2] + resultArray[3] / 100
-                } else {
-                    //DHT22
-                    let temp_sign: number = 1
-                    if (resultArray[2] >= 128) {
-                        resultArray[2] -= 128
-                        temp_sign = -1
-                    }
-                    _humidity = (resultArray[0] * 256 + resultArray[1]) / 10
-                    _temperature = (resultArray[2] * 256 + resultArray[3]) / 10 * temp_sign
+            if (DHT == DHTtype.DHT11) {
+                //DHT11
+                _humidity = resultArray[0] + resultArray[1] / 100
+                _temperature = resultArray[2] + resultArray[3] / 100
+            } else {
+                //DHT22
+                let temp_sign: number = 1
+                if (resultArray[2] >= 128) {
+                    resultArray[2] -= 128
+                    temp_sign = -1
                 }
-                if (_temptype == tempType.fahrenheit)
-                    _temperature = _temperature * 9 / 5 + 32
+                _humidity = (resultArray[0] * 256 + resultArray[1]) / 10
+                _temperature = (resultArray[2] * 256 + resultArray[3]) / 10 * temp_sign
+            }
+            if (_temptype == tempType.fahrenheit)
+                _temperature = _temperature * 9 / 5 + 32
             // }
 
             //serial output
-            if (serialOtput) {
+            if (serialOutput) {
                 serial.writeLine(DHTstr + " query completed in " + (endTime - startTime) + " microseconds")
                 if (_readSuccessful) {
                     serial.writeLine("Checksum ok")
@@ -1102,7 +1102,7 @@ enum direction { FRONT, BACK, LEFT, RIGHT }
 //% icon="\uf2db" 
 //% block="PKS Drivers"
 namespace pksdriver {
-    
+
     //% block="direction $wantedDirection" subcategory="Maze Car"
     //% group="Directions"
     //% weight=70
