@@ -321,7 +321,7 @@ namespace pksdriver {
     }
 
     //% group="Temperature and Humidity (AHT20)"  subcategory="Smart Living"
-    //% block="Read Temperature(°C))"
+    //% block="read temperature(°C))"
     //% weight=3
     export function aht20ReadTemperatureC(): number {
         const aht20 = new AHT20();
@@ -332,7 +332,7 @@ namespace pksdriver {
     }
 
     //% group="Temperature and Humidity (AHT20)" subcategory="Smart Living"
-    //% block="Read Temperature(°F))"
+    //% block="read temperature(°F))"
     //% weight=2
     export function aht20ReadTemperatureF(): number {
         const aht20 = new AHT20();
@@ -342,7 +342,7 @@ namespace pksdriver {
         return val.Temperature * 9 / 5 + 32;
     }
 
-    //% block="Read Humidity" subcategory="Smart Living"
+    //% block="read humidity" subcategory="Smart Living"
     //% group="Temperature and Humidity (AHT20)" 
     //% weight=1
     export function aht20ReadHumidity(): number {
@@ -352,7 +352,7 @@ namespace pksdriver {
 
         return val.Humidity;
     }
-    
+
     export class AHT20 {
         public constructor(address: number = 0x38) {
             this._Address = address;
