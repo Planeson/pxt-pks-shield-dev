@@ -299,6 +299,131 @@ namespace pksdriver {
 
 }
 
+//% weight=60
+//% color=#1c4980 
+//% icon="\uf2db" 
+//% block="PKS Drivers"
+namespace pksdriver {
+    function Read(aht20: AHT20): { Humidity: number, Temperature: number } {
+        if (!aht20.GetState().Calibrated) {
+            aht20.Initialization();
+            if (!aht20.GetState().Calibrated) return null;
+        }
+
+        aht20.TriggerMeasurement();
+        for (let i = 0; ; ++i) {
+            if (!aht20.GetState().Busy) break;
+            if (i >= 500) return null;
+            basic.pause(10);
+        }
+
+        return aht20.Read();
+    }
+
+    //% group="Temperature and Humidity (AHT20)"  subcategory="Smart Living"
+    //% block="Read Temperature(°C))"
+    //% weight=3
+    export function aht20ReadTemperatureC(): number {
+        const aht20 = new AHT20();
+        const val = Read(aht20);
+        if (val == null) return null;
+
+        return val.Temperature;
+    }
+
+    //% group="Temperature and Humidity (AHT20)" subcategory="Smart Living"
+    //% block="Read Temperature(°F))"
+    //% weight=2
+    export function aht20ReadTemperatureF(): number {
+        const aht20 = new AHT20();
+        const val = Read(aht20);
+        if (val == null) return null;
+
+        return val.Temperature * 9 / 5 + 32;
+    }
+
+    //% block="Read Humidity" subcategory="Smart Living"
+    //% group="Temperature and Humidity (AHT20)" 
+    //% weight=1
+    export function aht20ReadHumidity(): number {
+        const aht20 = new AHT20();
+        const val = Read(aht20);
+        if (val == null) return null;
+
+        return val.Humidity;
+    }
+    
+    export class AHT20 {
+        public constructor(address: number = 0x38) {
+            this._Address = address;
+        }
+
+        public Initialization(): AHT20 {
+            const buf = pins.createBuffer(3);
+            buf[0] = 0xbe;
+            buf[1] = 0x08;
+            buf[2] = 0x00;
+            pins.i2cWriteBuffer(this._Address, buf, false);
+            basic.pause(10);
+
+            return this;
+        }
+
+        public TriggerMeasurement(): AHT20 {
+            const buf = pins.createBuffer(3);
+            buf[0] = 0xac;
+            buf[1] = 0x33;
+            buf[2] = 0x00;
+            pins.i2cWriteBuffer(this._Address, buf, false);
+            basic.pause(80);
+
+            return this;
+        }
+
+        public GetState(): { Busy: boolean, Calibrated: boolean } {
+            const buf = pins.i2cReadBuffer(this._Address, 1, false);
+            const busy = buf[0] & 0x80 ? true : false;
+            const calibrated = buf[0] & 0x08 ? true : false;
+
+            return { Busy: busy, Calibrated: calibrated };
+        }
+
+        public Read(): { Humidity: number, Temperature: number } {
+            const buf = pins.i2cReadBuffer(this._Address, 7, false);
+
+            const crc8 = AHT20.CalcCRC8(buf, 0, 6);
+            if (buf[6] != crc8) return null;
+
+            const humidity = ((buf[1] << 12) + (buf[2] << 4) + (buf[3] >> 4)) * 100 / 1048576;
+            const temperature = (((buf[3] & 0x0f) << 16) + (buf[4] << 8) + buf[5]) * 200 / 1048576 - 50;
+
+            return { Humidity: humidity, Temperature: temperature };
+        }
+
+        private _Address: number;
+
+        private static CalcCRC8(buf: Buffer, offset: number, size: number): number {
+            let crc8 = 0xff;
+            for (let i = 0; i < size; ++i) {
+                crc8 ^= buf[offset + i];
+                for (let j = 0; j < 8; ++j) {
+                    if (crc8 & 0x80) {
+                        crc8 <<= 1;
+                        crc8 ^= 0x31;
+                    }
+                    else {
+                        crc8 <<= 1;
+                    }
+                    crc8 &= 0xff;
+                }
+            }
+
+            return crc8;
+        }
+
+    }
+}
+
 enum DHTtype {
     DHT11,
     DHT22,
@@ -336,7 +461,7 @@ namespace pksdriver {
     //% blockExternalInputs=true
     //% weight=100
     //% subcategory="Smart Living"
-    //% group="Temperature and Humidity"
+    //% group="Temperature and Humidity (DHT11/DHT22)" 
     export function queryData(DHT: DHTtype, dataPin: DigitalPin, pullUp: boolean, serialOutput: boolean, wait: boolean) {
 
         //initialize
@@ -443,7 +568,7 @@ namespace pksdriver {
     */
     //% weight=99
     //% block="read $data" subcategory="Smart Living"
-    //% group="Temperature and Humidity"
+    //% group="Temperature and Humidity (DHT11/DHT22)" 
     export function readData(data: dataType): number {
         return data == dataType.humidity ? _humidity : _temperature
     }
@@ -452,7 +577,7 @@ namespace pksdriver {
     * Select temperature type (Celsius/Fahrenheit)"
     */
     //% block="temperature type: $temp" subcategory="Smart Living"
-    //% group="Temperature and Humidity"
+    //% group="Temperature and Humidity (DHT11/DHT22)" 
     //% weight=98
     export function selectTempType(temp: tempType) {
         _temptype = temp
@@ -463,7 +588,7 @@ namespace pksdriver {
     */
     //% block="last query successful?" subcategory="Smart Living"
     //% weight=97
-    //% group="Temperature and Humidity"
+    //% group="Temperature and Humidity (DHT11/DHT22)" 
     export function readDataSuccessful(): boolean {
         return _readSuccessful
     }
@@ -473,7 +598,7 @@ namespace pksdriver {
     */
     //% block="last query sensor responding?" subcategory="Smart Living"
     //% weight=96
-    //% group="Temperature and Humidity"
+    //% group="Temperature and Humidity (DHT11/DHT22)" 
     export function sensorrResponding(): boolean {
         return _sensorresponding
     }
@@ -1053,7 +1178,7 @@ namespace pksdriver {
      * Get temperature
      */
     //% block="temperature (Unit: Celsius)" subcategory="Smart Living"
-    //% group="Temperature and Humidity"
+    //% group="Temperature and Humidity (DHT11/DHT22)" 
     //% weight=96
     export function readTemperature(): number {
         let rawTemp = readData(tempAddr);
