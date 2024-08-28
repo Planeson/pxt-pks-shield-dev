@@ -1237,6 +1237,36 @@ namespace pksdriver {
 
 }
 
+//Color Sensor
+enum RGB{
+    //% block="red_value"
+    r,
+    //% block="green_value"
+    g,
+    //% block="blue_value"
+    b
+}
+
+enum RGBC{
+    //% block="clear_light_value"
+    c,
+    //% block="red_light_value"
+    r,
+    //% block="green_light_value"
+    g,
+    //% block="blue_light_value"
+    b
+}
+
+enum HSL{
+    //% block="hue"
+    h,
+    //% block="Saturation"
+    s,
+    //% block="lightness"
+    l
+}
+
 //ColorSensor
 //% weight=60
 //% color=#1c4980 
@@ -1253,37 +1283,6 @@ namespace pksdriver {
         RGBC = 0x02,
         HSL = 0x03,
     }
-
-    enum RGB{
-        //% block="red_value"
-        r,
-        //% block="green_value"
-        g,
-        //% block="blue_value"
-        b
-    }
-
-    enum RGBC{
-        //% block="clear_light_value"
-        c,
-        //% block="red_light_value"
-        r,
-        //% block="green_light_value"
-        g,
-        //% block="blue_light_value"
-        b
-    }
-
-    enum HSL{
-        //% block="hue"
-        h,
-        //% block="Saturation"
-        s,
-        //% block="lightness"
-        l
-    }
-
-
 
     //Color sensor output c data type, just for reference
     //////////////////////////////////////////////////
