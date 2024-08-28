@@ -1236,3 +1236,125 @@ namespace pksdriver {
     }
 
 }
+
+//ColorSensor
+//% weight=60
+//% color=#1c4980 
+//% icon="\uf2db" 
+//% block="PKS Drivers"
+namespace pksdriver { 
+
+    enum Color{
+        //i2c addr
+        ADDR = 0x11,
+        //data commend addr
+        COLOR = 0x01,
+        RGB = 0x08,
+        RGBC = 0x02,
+        HSL = 0x03,
+    }
+
+    enum RGB{
+        //% block="red_value"
+        r,
+        //% block="green_value"
+        g,
+        //% block="blue_value"
+        b
+    }
+
+    enum RGBC{
+        //% block="clear_light_value"
+        c,
+        //% block="red_light_value"
+        r,
+        //% block="green_light_value"
+        g,
+        //% block="blue_light_value"
+        b
+    }
+
+    enum HSL{
+        //% block="hue"
+        h,
+        //% block="Saturation"
+        s,
+        //% block="lightness"
+        l
+    }
+
+
+
+    //Color sensor output c data type, just for reference
+    //////////////////////////////////////////////////
+    //typedef struct{                               //
+    //    uint32_t  c;      //[0-65536]             //                
+    //    uint32_t  r;                              //
+    //    uint32_t  g;                              //
+    //    uint32_t  b;                              //
+    //} rgbc_t; //RGBC                              //
+    //                                              //
+    //typedef struct{                               //
+    //    uint16_t h;       //[0,360]               //                
+    //    uint8_t  s;       //[0,100]               //                
+    //    uint8_t  l;       //[0,100]               //                
+    //} hsl_t;  //HSL                               //
+    //                                              //    
+    //typedef struct {                              //
+    //    uint8_t r;                                //
+    //    uint8_t g;                                //
+    //    uint8_t b;                                //
+    //} rgb_t;                                      //    
+    //////////////////////////////////////////////////
+
+    //% block="readhsl % choose" subcategory="Edu Kit"
+    //% group="Colors"
+    //% weight=80
+    export function readhsl(choose:HSL):number {
+        pins.i2cWriteNumber(Color.ADDR, Color.HSL, NumberFormat.UInt8BE, false);
+        let hsl = pins.i2cReadBuffer(Color.ADDR, 4, false);
+        let temp = [hsl.getNumber(NumberFormat.UInt16LE,0), //h
+                    hsl.getNumber(NumberFormat.UInt8LE, 2), //s
+                    hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
+        return temp[choose]
+    }
+
+    export function readcolor() {
+
+    }
+
+    //% block="readrgb % choose" subcategory="Edu Kit"
+    //% group="Colors"
+    //% weight=80
+    export function readrgb(choose:RGB):number {
+        pins.i2cWriteNumber(Color.ADDR, Color.RGB, NumberFormat.UInt8BE, false);
+        let rgb = pins.i2cReadBuffer(Color.ADDR, 3, false);
+        let temp = [rgb.getNumber(NumberFormat.UInt8LE,0),  //r
+                    rgb.getNumber(NumberFormat.UInt8LE,1),  //g
+                    rgb.getNumber(NumberFormat.UInt8LE,2)]  //b
+        return temp[choose]
+    }
+
+    //% block="readhsl % choose" subcategory="Edu Kit"
+    //% group="Colors"
+    //% weight=80
+    export function readrgbc(choose:RGBC): number {
+        pins.i2cWriteNumber(Color.ADDR, Color.RGBC, NumberFormat.UInt8BE, false);
+        let rgbc = pins.i2cReadBuffer(Color.ADDR, 16, false);                   
+        let temp = [rgbc.getNumber(NumberFormat.UInt32LE, 0 ),  //c                 
+                    rgbc.getNumber(NumberFormat.UInt32LE, 4 ),  //r             
+                    rgbc.getNumber(NumberFormat.UInt32LE, 8 ),  //g             
+                    rgbc.getNumber(NumberFormat.UInt32LE, 12)]  //b
+        return temp[choose]
+    }
+
+    function readAdvColor(hsl_t hsl) {
+      if      ( hsl.l < 80 && hsl.s < 60  ) return black;
+      else if ( hsl.h < 80 && hsl.h > 50)   return yellow;
+      else if ( hsl.h > 150 && hsl.s < 30 && hsl.l > 60 )  return white;
+      else if ( hsl.h < 15 || hsl.h > 315 ) return red;
+      else if ( hsl.h < 150 )               return green;
+      else                                  return blue;
+    }
+    
+}
