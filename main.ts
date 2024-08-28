@@ -1306,7 +1306,7 @@ namespace pksdriver {
     //} rgb_t;                                      //    
     //////////////////////////////////////////////////
 
-    //% block="readhsl % choose" subcategory="Edu Kit"
+    //% block="readhsl $choose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=80
     export function readhsl(choose:HSL):number {
@@ -1322,7 +1322,7 @@ namespace pksdriver {
 
     }
 
-    //% block="readrgb % choose" subcategory="Edu Kit"
+    //% block="readrgb $choose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=80
     export function readrgb(choose:RGB):number {
@@ -1334,7 +1334,7 @@ namespace pksdriver {
         return temp[choose]
     }
 
-    //% block="readhsl % choose" subcategory="Edu Kit"
+    //% block="readhsl $choose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=80
     export function readrgbc(choose:RGBC): number {
