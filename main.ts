@@ -1238,7 +1238,7 @@ namespace pksdriver {
 }
 
 //Color Sensor
-enum RGB{
+export enum RGB{
     //% block="red_value"
     r,
     //% block="green_value"
@@ -1247,7 +1247,7 @@ enum RGB{
     b
 }
 
-enum RGBC{
+export enum RGBC{
     //% block="clear_light_value"
     c,
     //% block="red_light_value"
@@ -1258,7 +1258,7 @@ enum RGBC{
     b
 }
 
-enum HSL{
+export enum HSL{
     //% block="hue"
     h,
     //% block="Saturation"
