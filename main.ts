@@ -1301,10 +1301,16 @@ namespace pksdriver {
     export enum HSL{
         //% block="hue"
         h,
-        //% block="Saturation"
+        //% block="saturation"
         s,
         //% block="lightness"
         l
+    }
+
+    export enum color_t{
+        black=0,  white,  
+        red,      green,   blue, 
+        yellow,cyan,purple
     }
 
     /**
@@ -1353,6 +1359,46 @@ namespace pksdriver {
         return temp[choose]
     }
 
-
+    /**
+    * color read function
+    */
+    //% blockId=readcolor block="readColor" subcategory="Edu Kit"
+    //% group="Colors"
+    //% weight=70
+    export function readcolor():color_t {
+        pins.i2cWriteNumber(Color.ADDR, Color.COLOR, NumberFormat.UInt8BE, false);
+        return pins.i2cReadBuffer(Color.ADDR, 1, false).getNumber(NumberFormat.UInt8LE,0);
+    }
     
+    function diff(a:number, b:number):number {
+        return Math.abs(a - b);
+    }
+
+    /**
+    * function transfer hsl value to color 
+    */
+    //% blockId=getcolor block="getColor" subcategory="Edu Kit"
+    //% group="Colors"
+    //% weight=70
+    export function getColor() :number{
+        pins.i2cWriteNumber(Color.ADDR, Color.HSL, NumberFormat.UInt8BE, false);
+        let hsl = pins.i2cReadBuffer(Color.ADDR, 4, false);
+        let temp1 =[hsl.getNumber(NumberFormat.UInt16LE, 0), //h
+                    hsl.getNumber(NumberFormat.UInt8LE, 2), //s
+                    hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
+        if (temp1[HSL.h] > 330 || temp1[HSL.h] < 30) {
+            return color_t.red
+        } else if (temp1[pksdriver.HSL.h] >= 30 && temp1[HSL.h] < 90) {
+            return color_t.yellow
+        } else if (temp1[HSL.h] >= 90 && temp1[HSL.h] < 150) {
+            return color_t.green
+        } else if (temp1[HSL.h] >= 150 && temp1[HSL.h] < 210) {
+            return color_t.blue//cyan but i find many blue color will sense as cyan color
+        } else if (temp1[HSL.h] >= 210 && temp1[HSL.h] < 270) {
+            return color_t.blue
+        } else if (temp1[HSL.h] >= 210 && temp1[HSL.h] < 330) {
+            return color_t.purple
+        }return null
+
+    }
 }
