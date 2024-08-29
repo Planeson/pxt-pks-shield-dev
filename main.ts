@@ -1306,7 +1306,7 @@ namespace pksdriver {
     //} rgb_t;                                      //    
     //////////////////////////////////////////////////
 
-    //% block="readhsl $HSL choose" subcategory="Edu Kit"
+    //% block="readhsl $choose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=80
     export function readhsl(choose:HSL):number {
@@ -1322,9 +1322,9 @@ namespace pksdriver {
 
     }
 
-    //% block="readrgb $RGB choose" subcategory="Edu Kit"
+    //% block="readrgb $choose" subcategory="Edu Kit"
     //% group="Colors"
-    //% weight=80
+    //% weight=60
     export function readrgb(choose:RGB):number {
         pins.i2cWriteNumber(Color.ADDR, Color.RGB, NumberFormat.UInt8BE, false);
         let rgb = pins.i2cReadBuffer(Color.ADDR, 3, false);
@@ -1334,9 +1334,9 @@ namespace pksdriver {
         return temp[choose]
     }
 
-    //% block="readhsl $RGBC choose" subcategory="Edu Kit"
+    //% block="readhsl $choose" subcategory="Edu Kit"
     //% group="Colors"
-    //% weight=80
+    //% weight=70
     export function readrgbc(choose:RGBC): number {
         pins.i2cWriteNumber(Color.ADDR, Color.RGBC, NumberFormat.UInt8BE, false);
         let rgbc = pins.i2cReadBuffer(Color.ADDR, 16, false);                   
