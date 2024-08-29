@@ -1325,16 +1325,16 @@ namespace pksdriver {
     /**
     * RGB read function
     */
-    //% blockId=readrgb block="readRGB $choose" subcategory="Edu Kit"
+    //% blockId=readrgb block="readRGB $rgbchoose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=60
-    export function readrgb(choose:RGB):number {
+    export function readrgb(rgbchoose:RGB):number {
         pins.i2cWriteNumber(Color.ADDR, Color.RGB, NumberFormat.UInt8BE, false);
         let rgb = pins.i2cReadBuffer(Color.ADDR, 3, false);
         let temp = [rgb.getNumber(NumberFormat.UInt8LE,0),  //r
                     rgb.getNumber(NumberFormat.UInt8LE,1),  //g
                     rgb.getNumber(NumberFormat.UInt8LE,2)]  //b
-        return temp[choose]
+        return temp[rgbchoose]
     }   
     
     /**
