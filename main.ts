@@ -1320,11 +1320,7 @@ namespace pksdriver {
                     hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
         return temp[hslchoose]
     }
-
-    export function readcolor() {
-
-    }
-
+    
     /**
     * RGB read function
     */
