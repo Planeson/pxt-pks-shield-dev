@@ -1305,8 +1305,11 @@ namespace pksdriver {
     //    uint8_t b;                                //
     //} rgb_t;                                      //    
     //////////////////////////////////////////////////
-
-    //% blockId="readhsl" block="readHSL $hslchoose" subcategory="Edu Kit"
+    
+    /**
+    * HSL read function
+    */
+    //% blockId=readhsl block="readHSL $hslchoose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=80
     export function readhsl(hslchoose:HSL):number {
@@ -1322,7 +1325,10 @@ namespace pksdriver {
 
     }
 
-    //% blockId="readrgb" block="readRGB $choose" subcategory="Edu Kit"
+    /**
+    * RGB read function
+    */
+    //% blockId=readrgb block="readRGB $choose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=60
     export function readrgb(choose:RGB):number {
@@ -1332,9 +1338,12 @@ namespace pksdriver {
                     rgb.getNumber(NumberFormat.UInt8LE,1),  //g
                     rgb.getNumber(NumberFormat.UInt8LE,2)]  //b
         return temp[choose]
-    }
-
-    //% blockId="readrgbc" block="readRGBC $choose" subcategory="Edu Kit"
+    }   
+    
+    /**
+    * RGBC read function
+    */
+    //% blockId=readrgbc block="readRGBC $choose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=70
     export function readrgbc(choose:RGBC): number {
