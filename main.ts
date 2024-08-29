@@ -1237,36 +1237,6 @@ namespace pksdriver {
 
 }
 
-//Color Sensor
-export enum RGB{
-    //% block="red_value"
-    r,
-    //% block="green_value"
-    g,
-    //% block="blue_value"
-    b
-}
-
-export enum RGBC{
-    //% block="clear_light_value"
-    c,
-    //% block="red_light_value"
-    r,
-    //% block="green_light_value"
-    g,
-    //% block="blue_light_value"
-    b
-}
-
-export enum HSL{
-    //% block="hue"
-    h,
-    //% block="Saturation"
-    s,
-    //% block="lightness"
-    l
-}
-
 //ColorSensor
 //% weight=60
 //% color=#1c4980 
@@ -1306,6 +1276,37 @@ namespace pksdriver {
     //} rgb_t;                                      //    
     //////////////////////////////////////////////////
     
+    
+    //Color Sensor
+    export enum RGB{
+        //% block="red_value"
+        r,
+        //% block="green_value"
+        g,
+        //% block="blue_value"
+        b
+    }
+
+    export enum RGBC{
+        //% block="clear_light_value"
+        c,
+        //% block="red_light_value"
+        r,
+        //% block="green_light_value"
+        g,
+        //% block="blue_light_value"
+        b
+    }
+
+    export enum HSL{
+        //% block="hue"
+        h,
+        //% block="Saturation"
+        s,
+        //% block="lightness"
+        l
+    }
+
     /**
     * HSL read function
     */
@@ -1320,7 +1321,7 @@ namespace pksdriver {
                     hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
         return temp[hslchoose]
     }
-    
+
     /**
     * RGB read function
     */
