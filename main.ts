@@ -1306,16 +1306,16 @@ namespace pksdriver {
     //} rgb_t;                                      //    
     //////////////////////////////////////////////////
 
-    //% block="readhsl $choose" subcategory="Edu Kit"
+    //% block="readhsl $hslchoose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=80
-    export function readhsl(choose:HSL):number {
+    export function readhsl(hslchoose:HSL):number {
         pins.i2cWriteNumber(Color.ADDR, Color.HSL, NumberFormat.UInt8BE, false);
         let hsl = pins.i2cReadBuffer(Color.ADDR, 4, false);
         let temp = [hsl.getNumber(NumberFormat.UInt16LE,0), //h
                     hsl.getNumber(NumberFormat.UInt8LE, 2), //s
                     hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
-        return temp[choose]
+        return temp[hslchoose]
     }
 
     export function readcolor() {
