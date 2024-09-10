@@ -1369,6 +1369,16 @@ namespace pksdriver {
         pins.i2cWriteNumber(Color.ADDR, Color.COLOR, NumberFormat.UInt8BE, false);
         return pins.i2cReadBuffer(Color.ADDR, 1, false).getNumber(NumberFormat.UInt8LE,0);
     }
+
+    /**
+    * check color
+    */
+    //% blockId=checkColor block="check if color is %color_t color or not" subcategory="Edu Kit"
+    //% group="Colors"
+    //% weight=70
+    export function checkColor(color: color_t): boolean {
+        return readcolor() == color
+    }
     
     function diff(a:number, b:number):number {
         return Math.abs(a - b);
