@@ -1371,15 +1371,25 @@ namespace pksdriver {
     }
 
     /**
-    * check color
+    * check read color
     */
-    //% blockId=checkColor block="check if color is %color_t or not" subcategory="Edu Kit"
+    //% blockId=checkReadColor block="read color is %color_t" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=70
-    export function checkColor(color: color_t): boolean {
+    export function checkReadColor(color: color_t): boolean {
         return readcolor() == color
     }
     
+    /**
+    * check get color
+    */
+    //% blockId=checkGetColor block="get color is %color_t" subcategory="Edu Kit"
+    //% group="Colors"
+    //% weight=70
+    export function checkGetColor(color: color_t): boolean {
+        return getcolor() == color
+    }
+
     function diff(a:number, b:number):number {
         return Math.abs(a - b);
     }
@@ -1390,7 +1400,7 @@ namespace pksdriver {
     //% blockId=getcolor block="getColor" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=70
-    export function getColor() :number{
+    export function getcolor() :number{
         pins.i2cWriteNumber(Color.ADDR, Color.HSL, NumberFormat.UInt8BE, false);
         let hsl = pins.i2cReadBuffer(Color.ADDR, 4, false);
         let temp1 =[hsl.getNumber(NumberFormat.UInt16LE, 0), //h
