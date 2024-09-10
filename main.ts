@@ -1308,7 +1308,7 @@ namespace pksdriver {
     }
 
     export enum color_t{
-        black=0,  white,  
+        black=0,  white,  gray,
         red,      green,   blue, 
         yellow,cyan,purple
     }
@@ -1373,7 +1373,7 @@ namespace pksdriver {
     /**
     * check color
     */
-    //% blockId=checkColor block="check if color is %color_t color or not" subcategory="Edu Kit"
+    //% blockId=checkColor block="check if color is %color_t or not" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=70
     export function checkColor(color: color_t): boolean {
