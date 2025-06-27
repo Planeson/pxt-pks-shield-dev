@@ -297,6 +297,21 @@ namespace pksdriver {
         return temp;
     }
 
+
+    /**
+         * Rounds a number to the specified number of decimal places (returns a number with at most the requested decimals).
+         * @param value The number to round
+         * @param decimals The number of decimal places to keep
+         */
+    //% blockId=pksdriver_round block="round %value to %decimals decimal places" subcategory="Math"
+    //% group="Math"
+    //% weight=10
+    export function round(value: number, decimals: number): number {
+        if (decimals < 0) decimals = 0;
+        // Use toFixed to ensure the result is a string with the correct number of decimals, then parse back to number
+        return parseFloat(value.toFixed(decimals));
+    }
+
 }
 
 //% weight=60
@@ -1242,9 +1257,9 @@ namespace pksdriver {
 //% color=#1c4980 
 //% icon="\uf2db" 
 //% block="PKS Drivers"
-namespace pksdriver { 
+namespace pksdriver {
 
-    enum Color{
+    enum Color {
         //i2c addr
         ADDR = 0x11,
         //data commend addr
@@ -1275,10 +1290,10 @@ namespace pksdriver {
     //    uint8_t b;                                //
     //} rgb_t;                                      //    
     //////////////////////////////////////////////////
-    
-    
+
+
     //Color Sensor
-    export enum RGB{
+    export enum RGB {
         //% block="red_value"
         r,
         //% block="green_value"
@@ -1287,7 +1302,7 @@ namespace pksdriver {
         b
     }
 
-    export enum RGBC{
+    export enum RGBC {
         //% block="clear_light_value"
         c,
         //% block="red_light_value"
@@ -1298,7 +1313,7 @@ namespace pksdriver {
         b
     }
 
-    export enum HSL{
+    export enum HSL {
         //% block="hue"
         h,
         //% block="saturation"
@@ -1307,10 +1322,10 @@ namespace pksdriver {
         l
     }
 
-    export enum color_t{
-        black=0,  white,  gray,
-        red,      green,   blue, 
-        yellow,cyan,purple
+    export enum color_t {
+        black = 0, white, gray,
+        red, green, blue,
+        yellow, cyan, purple
     }
 
     /**
@@ -1319,12 +1334,12 @@ namespace pksdriver {
     //% blockId=readhsl block="readHSL $hslchoose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=80
-    export function readhsl(hslchoose:HSL):number {
+    export function readhsl(hslchoose: HSL): number {
         pins.i2cWriteNumber(Color.ADDR, Color.HSL, NumberFormat.UInt8BE, false);
         let hsl = pins.i2cReadBuffer(Color.ADDR, 4, false);
-        let temp = [hsl.getNumber(NumberFormat.UInt16LE,0), //h
-                    hsl.getNumber(NumberFormat.UInt8LE, 2), //s
-                    hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
+        let temp = [hsl.getNumber(NumberFormat.UInt16LE, 0), //h
+        hsl.getNumber(NumberFormat.UInt8LE, 2), //s
+        hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
         return temp[hslchoose]
     }
 
@@ -1334,28 +1349,28 @@ namespace pksdriver {
     //% blockId=readrgb block="readRGB $rgbchoose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=60
-    export function readrgb(rgbchoose:RGB):number {
+    export function readrgb(rgbchoose: RGB): number {
         pins.i2cWriteNumber(Color.ADDR, Color.RGB, NumberFormat.UInt8BE, false);
         let rgb = pins.i2cReadBuffer(Color.ADDR, 3, false);
-        let temp = [rgb.getNumber(NumberFormat.UInt8LE,0),  //r
-                    rgb.getNumber(NumberFormat.UInt8LE,1),  //g
-                    rgb.getNumber(NumberFormat.UInt8LE,2)]  //b
+        let temp = [rgb.getNumber(NumberFormat.UInt8LE, 0),  //r
+        rgb.getNumber(NumberFormat.UInt8LE, 1),  //g
+        rgb.getNumber(NumberFormat.UInt8LE, 2)]  //b
         return temp[rgbchoose]
-    }   
-    
+    }
+
     /**
     * RGBC read function
     */
     //% blockId=readrgbc block="readRGBC $choose" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=70
-    export function readrgbc(choose:RGBC): number {
+    export function readrgbc(choose: RGBC): number {
         pins.i2cWriteNumber(Color.ADDR, Color.RGBC, NumberFormat.UInt8BE, false);
-        let rgbc = pins.i2cReadBuffer(Color.ADDR, 16, false);                   
-        let temp = [rgbc.getNumber(NumberFormat.UInt32LE, 0 ),  //c                 
-                    rgbc.getNumber(NumberFormat.UInt32LE, 4 ),  //r             
-                    rgbc.getNumber(NumberFormat.UInt32LE, 8 ),  //g             
-                    rgbc.getNumber(NumberFormat.UInt32LE, 12)]  //b
+        let rgbc = pins.i2cReadBuffer(Color.ADDR, 16, false);
+        let temp = [rgbc.getNumber(NumberFormat.UInt32LE, 0),  //c                 
+        rgbc.getNumber(NumberFormat.UInt32LE, 4),  //r             
+        rgbc.getNumber(NumberFormat.UInt32LE, 8),  //g             
+        rgbc.getNumber(NumberFormat.UInt32LE, 12)]  //b
         return temp[choose]
     }
 
@@ -1365,9 +1380,9 @@ namespace pksdriver {
     //% blockId=readcolor block="readColor" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=70
-    export function readcolor():color_t {
+    export function readcolor(): color_t {
         pins.i2cWriteNumber(Color.ADDR, Color.COLOR, NumberFormat.UInt8BE, false);
-        return pins.i2cReadBuffer(Color.ADDR, 1, false).getNumber(NumberFormat.UInt8LE,0);
+        return pins.i2cReadBuffer(Color.ADDR, 1, false).getNumber(NumberFormat.UInt8LE, 0);
     }
 
     /**
@@ -1379,7 +1394,7 @@ namespace pksdriver {
     export function checkReadColor(color: color_t): boolean {
         return readcolor() == color
     }
-    
+
     /**
     * check get color
     */
@@ -1390,7 +1405,7 @@ namespace pksdriver {
         return getcolor() == color
     }
 
-    function diff(a:number, b:number):number {
+    function diff(a: number, b: number): number {
         return Math.abs(a - b);
     }
 
@@ -1400,12 +1415,12 @@ namespace pksdriver {
     //% blockId=getcolor block="getColor" subcategory="Edu Kit"
     //% group="Colors"
     //% weight=70
-    export function getcolor() :number{
+    export function getcolor(): number {
         pins.i2cWriteNumber(Color.ADDR, Color.HSL, NumberFormat.UInt8BE, false);
         let hsl = pins.i2cReadBuffer(Color.ADDR, 4, false);
-        let temp1 =[hsl.getNumber(NumberFormat.UInt16LE, 0), //h
-                    hsl.getNumber(NumberFormat.UInt8LE, 2), //s
-                    hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
+        let temp1 = [hsl.getNumber(NumberFormat.UInt16LE, 0), //h
+        hsl.getNumber(NumberFormat.UInt8LE, 2), //s
+        hsl.getNumber(NumberFormat.UInt8LE, 3)] //l
         if (temp1[HSL.h] > 330 || temp1[HSL.h] < 30) {
             return color_t.red
         } else if (temp1[pksdriver.HSL.h] >= 30 && temp1[HSL.h] < 90) {
@@ -1418,21 +1433,8 @@ namespace pksdriver {
             return color_t.blue
         } else if (temp1[HSL.h] >= 210 && temp1[HSL.h] < 330) {
             return color_t.purple
-        }return null
+        } return null
 
     }
 }
 
-/**
-     * Rounds a number to the specified number of decimal places (returns a number with at most the requested decimals).
-     * @param value The number to round
-     * @param decimals The number of decimal places to keep
-     */
-    //% blockId=pksdriver_round block="round %value to %decimals decimal places" subcategory="Math"
-    //% group="Math"
-    //% weight=10
-    export function round(value: number, decimals: number): number {
-        if (decimals < 0) decimals = 0;
-        // Use toFixed to ensure the result is a string with the correct number of decimals, then parse back to number
-        return parseFloat(value.toFixed(decimals));
-    }
