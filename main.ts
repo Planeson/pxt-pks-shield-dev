@@ -1429,16 +1429,33 @@ namespace pksdriver {
 //% block="PKS Drivers"
 namespace pksdriver {
     /**
-         * Rounds a number to the specified number of decimal places (returns a number with at most the requested decimals).
+         * Rounds a number to the specified number of decimal places (returns a string with the requested decimals, similar to toFixed).
          * @param value The number to round
          * @param decimals The number of decimal places to keep
          */
     //% blockId=pksdriver_round block="round %value to %decimals decimal places" subcategory="Math"
     //% group="Math"
     //% weight=10
-    export function roundToDp(value: number, decimals: number): number {
+    export function roundToDp2(value: number, decimals: number): string {
         if (decimals < 0) decimals = 0;
-        // Use toFixed to ensure the result is a string with the correct number of decimals, then parse back to number
-        return parseFloat(value.toFixed(decimals));
+        if (decimals > 20) decimals = 20;
+        let factor = Math.pow(10, decimals);
+        let rounded = Math.round(value * factor) / factor;
+        let str = "" + rounded;
+        // Add trailing zeros if needed
+        let dotIdx = str.indexOf(".");
+        if (decimals == 0) {
+            return str.split(".")[0];
+        }
+        if (dotIdx == -1) {
+            str += ".";
+            dotIdx = str.length - 1;
+        }
+        let decimalsNow = str.length - dotIdx - 1;
+        while (decimalsNow < decimals) {
+            str += "0";
+            decimalsNow++;
+        }
+        return str;
     }
 }
