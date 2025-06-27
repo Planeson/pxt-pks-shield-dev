@@ -1422,3 +1422,17 @@ namespace pksdriver {
 
     }
 }
+
+/**
+     * Rounds a number to the specified number of decimal places (returns a number with at most the requested decimals).
+     * @param value The number to round
+     * @param decimals The number of decimal places to keep
+     */
+    //% blockId=pksdriver_round block="round %value to %decimals decimal places" subcategory="Math"
+    //% group="Math"
+    //% weight=10
+    export function round(value: number, decimals: number): number {
+        if (decimals < 0) decimals = 0;
+        // Use toFixed to ensure the result is a string with the correct number of decimals, then parse back to number
+        return parseFloat(value.toFixed(decimals));
+    }
